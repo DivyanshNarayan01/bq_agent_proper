@@ -7,6 +7,14 @@ echo "Setting up greeting_agent_proper..."
 echo "Installing Python dependencies..."
 pip install --user -r requirements.txt
 
+# Create a wrapper script for adk command since the executable isn't created properly
+mkdir -p ~/.local/bin
+cat > ~/.local/bin/adk << 'EOF'
+#!/bin/bash
+python -m google.adk.cli "$@"
+EOF
+chmod +x ~/.local/bin/adk
+
 # Add local bin to PATH if not already there
 if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     echo "Adding ~/.local/bin to PATH..."
