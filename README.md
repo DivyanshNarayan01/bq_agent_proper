@@ -4,8 +4,8 @@ A simple greeting agent built with Google's Agent Development Kit (ADK) that ask
 
 ## Setup for GitHub Codespaces
 
-### Quick Setup
-Run the setup script to install dependencies and configure PATH:
+### Quick Setup (Recommended)
+Run the setup script to install dependencies and configure the environment:
 
 ```bash
 chmod +x setup.sh
@@ -13,12 +13,25 @@ chmod +x setup.sh
 source ~/.bashrc
 ```
 
+The setup script will:
+- Install all Python dependencies
+- Create a custom `adk` wrapper command
+- Configure your PATH automatically
+
 ### Manual Setup
 If you prefer to set up manually:
 
 ```bash
-# Install dependencies
+# Install dependencies (including the missing 'deprecated' module)
 pip install --user -r requirements.txt
+
+# Create adk wrapper script
+mkdir -p ~/.local/bin
+cat > ~/.local/bin/adk << 'EOF'
+#!/bin/bash
+python -m google.adk.cli "$@"
+EOF
+chmod +x ~/.local/bin/adk
 
 # Add local bin to PATH
 echo 'export PATH=$PATH:$HOME/.local/bin' >> ~/.bashrc
@@ -33,7 +46,7 @@ After setup, you can run the agent using:
 adk run greeting_agent
 ```
 
-If the `adk` command is still not found, use the Python module directly:
+If you encounter any issues, you can always run directly with:
 
 ```bash
 python -m google.adk.cli run greeting_agent
