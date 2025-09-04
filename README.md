@@ -2,6 +2,19 @@
 
 A simple greeting agent built with Google's Agent Development Kit (ADK) that asks for the user's name and location.
 
+## Quick Start
+
+To get started quickly, run these commands:
+
+```bash
+git clone https://github.com/DivyanshNarayan01/greeting_agent_proper.git
+cd greeting_agent_proper
+chmod +x setup.sh
+./setup.sh
+source ~/.bashrc
+adk run greeting_agent
+```
+
 ## Setup for GitHub Codespaces
 
 ### Quick Setup (Recommended)
