@@ -4,7 +4,13 @@ Use this to set up your API key and table names in BigQuery notebooks
 """
 
 import os
+import sys
 import getpass
+
+def ensure_module_path():
+    """Ensure the current directory is in Python path for module imports."""
+    if os.getcwd() not in sys.path:
+        sys.path.insert(0, os.getcwd())
 
 def setup_config(gemini_api_key: str, bigquery_tables: list = None):
     """
@@ -22,6 +28,9 @@ def setup_config(gemini_api_key: str, bigquery_tables: list = None):
             bigquery_tables=["your-project.your_dataset.your_table"]
         )
     """
+    # Ensure module path is set up
+    ensure_module_path()
+    
     # Set environment variables
     os.environ['GOOGLE_API_KEY'] = gemini_api_key
     os.environ['GOOGLE_GENAI_USE_VERTEXAI'] = '0'
@@ -31,6 +40,7 @@ def setup_config(gemini_api_key: str, bigquery_tables: list = None):
     
     print(f"✅ Configuration set:")
     print(f"   - Gemini API key configured")
+    print(f"   - Module path configured")
     print(f"   - BigQuery tables: {bigquery_tables or 'None specified (will explore all available)'}")
     print()
     print("Now you can import and run your agent:")

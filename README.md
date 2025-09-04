@@ -38,7 +38,11 @@ A powerful AI agent built with Google's Agent Development Kit (ADK) for analyzin
    tables = input("Enter BigQuery tables (optional): ").strip()
    os.environ['BIGQUERY_TABLES'] = tables
    
-   # Import and use the agent
+   # Add current directory to Python path and import agent
+   import sys
+   if os.getcwd() not in sys.path:
+       sys.path.insert(0, os.getcwd())
+   
    from greeting_agent.agent import root_agent
    
    # Start asking questions!
