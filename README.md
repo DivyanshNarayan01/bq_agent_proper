@@ -11,7 +11,7 @@ A powerful AI agent built with Google's Agent Development Kit (ADK) for analyzin
 
 ## Quick Start in BigQuery Notebook
 
-### Method 1: Simple Setup (Recommended)
+### Method 1: Secure Setup (Recommended)
 
 1. **Clone this repository**:
    ```bash
@@ -24,12 +24,19 @@ A powerful AI agent built with Google's Agent Development Kit (ADK) for analyzin
    pip install -r requirements.txt
    ```
 
-3. **Configure in notebook**:
+3. **Configure securely in notebook**:
    ```python
-   # Set your Gemini API key and table names (optional)
    import os
-   os.environ['GOOGLE_API_KEY'] = 'your_gemini_api_key_here'
-   os.environ['BIGQUERY_TABLES'] = 'your-project.your_dataset.your_table'  # Optional
+   import getpass
+   
+   # Securely input your API key (won't be displayed)
+   print("Enter your Gemini API key:")
+   api_key = getpass.getpass("API Key: ")
+   os.environ['GOOGLE_API_KEY'] = api_key
+   
+   # Optional: Set BigQuery tables
+   tables = input("Enter BigQuery tables (optional): ").strip()
+   os.environ['BIGQUERY_TABLES'] = tables
    
    # Import and use the agent
    from greeting_agent.agent import root_agent
@@ -39,15 +46,13 @@ A powerful AI agent built with Google's Agent Development Kit (ADK) for analyzin
    print(response)
    ```
 
-### Method 2: Using Configuration Helper
+### Method 2: Using Secure Configuration Helper
 
 ```python
-from config import setup_config
+from config import secure_setup
 
-setup_config(
-    gemini_api_key="your_gemini_api_key_here",
-    bigquery_tables=["your-project.your_dataset.your_table"]  # Optional
-)
+# This will prompt for your API key securely (input won't be displayed)
+secure_setup()
 
 from greeting_agent.agent import root_agent
 # Agent is ready to use!

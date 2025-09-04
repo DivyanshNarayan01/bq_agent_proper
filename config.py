@@ -4,6 +4,7 @@ Use this to set up your API key and table names in BigQuery notebooks
 """
 
 import os
+import getpass
 
 def setup_config(gemini_api_key: str, bigquery_tables: list = None):
     """
@@ -58,3 +59,25 @@ def quick_setup_single_table(gemini_api_key: str, table_name: str):
         bigquery_tables=[table_name]
     )
     print(f"🎯 Quick setup complete for table: {table_name}")
+
+def secure_setup():
+    """
+    Secure setup using getpass for API key input.
+    Prompts user for API key without displaying it.
+    """
+    print("🔐 Secure BigQuery Agent Setup")
+    print("-" * 40)
+    
+    # Securely get API key
+    print("Enter your Gemini API key (input will be hidden):")
+    api_key = getpass.getpass("API Key: ")
+    
+    # Get table names
+    tables_input = input("Enter BigQuery tables (optional, comma-separated): ").strip()
+    bigquery_tables = [t.strip() for t in tables_input.split(',') if t.strip()] if tables_input else None
+    
+    # Setup configuration
+    setup_config(api_key, bigquery_tables)
+    
+    print("🔒 API key stored securely (not displayed)")
+    return True
