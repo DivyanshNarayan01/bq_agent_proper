@@ -1,7 +1,16 @@
-google-adk[database]==0.3.0
-yfinance==0.2.56
-psutil==5.9.5
-litellm==1.66.3
-google-generativeai==0.8.5
-python-dotenv==1.1.0
-deprecated
+# Core ADK dependencies
+google-adk[bigquery]>=0.1.0
+
+# BigQuery dependencies  
+google-cloud-bigquery>=3.0.0
+google-cloud-bigquery-storage>=2.0.0
+
+# Additional useful dependencies for data analysis
+pandas>=1.5.0
+numpy>=1.24.0
+matplotlib>=3.6.0
+seaborn>=0.12.0
+
+# Jupyter/Colab environment support
+ipython>=8.0.0
+jupyter>=1.0.0

@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Setup script for GitHub Codespaces
-echo "Setting up greeting_agent_proper..."
+# Setup script for BigQuery Notebook environment
+echo "Setting up BigQuery Data Agent..."
 
 # Install requirements
 echo "Installing Python dependencies..."
-pip install --user -r requirements.txt
+pip install -r requirements.txt
 
-# Create a wrapper script for adk command since the executable isn't created properly
+# Create a wrapper script for adk command
 mkdir -p ~/.local/bin
 cat > ~/.local/bin/adk << 'EOF'
 #!/bin/bash
@@ -27,9 +27,14 @@ chmod +x setup.sh
 
 echo "Setup complete!"
 echo ""
-echo "To run the agent:"
-echo "  source ~/.bashrc"
-echo "  adk run greeting_agent"
+echo "BigQuery Data Agent is ready to use!"
+echo ""
+echo "To run the agent in BigQuery notebook:"
+echo "  1. Clone this repo: git clone <your-repo-url>"
+echo "  2. Run: cd bq_agent_proper && ./setup.sh"
+echo "  3. Run: adk run greeting_agent"
 echo ""
 echo "Or run directly with:"
 echo "  python -m google.adk.cli run greeting_agent"
+echo ""
+echo "The agent will automatically authenticate using notebook credentials."

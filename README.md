@@ -1,100 +1,116 @@
-# Greeting Agent
+# BigQuery Data Agent
 
-A simple greeting agent built with Google's Agent Development Kit (ADK) that asks for the user's name and location.
+A powerful AI agent built with Google's Agent Development Kit (ADK) for analyzing BigQuery data through natural language queries.
 
-## Quick Start
+## Features
 
-To get started quickly, run these commands:
+- **Natural Language to SQL**: Ask questions in plain English and get SQL queries executed automatically
+- **Schema Exploration**: Automatically discovers and understands your BigQuery datasets and tables
+- **Data Analysis**: Provides insights and explanations based on query results
+- **BigQuery Native**: Optimized for BigQuery notebook environments with automatic authentication
+
+## Quick Start in BigQuery Notebook
+
+### Method 1: Simple Setup (Recommended)
+
+1. **Clone this repository**:
+   ```bash
+   git clone <your-repo-url>
+   cd bq_agent_proper
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure in notebook**:
+   ```python
+   # Set your Gemini API key and table names (optional)
+   import os
+   os.environ['GOOGLE_API_KEY'] = 'your_gemini_api_key_here'
+   os.environ['BIGQUERY_TABLES'] = 'your-project.your_dataset.your_table'  # Optional
+   
+   # Import and use the agent
+   from greeting_agent.agent import root_agent
+   
+   # Start asking questions!
+   response = root_agent.run("What datasets are available?")
+   print(response)
+   ```
+
+### Method 2: Using Configuration Helper
+
+```python
+from config import setup_config
+
+setup_config(
+    gemini_api_key="your_gemini_api_key_here",
+    bigquery_tables=["your-project.your_dataset.your_table"]  # Optional
+)
+
+from greeting_agent.agent import root_agent
+# Agent is ready to use!
+```
+
+### Method 3: Full Setup Script
 
 ```bash
-git clone https://github.com/DivyanshNarayan01/greeting_agent_proper.git
-cd greeting_agent_proper
-chmod +x setup.sh
 ./setup.sh
-source ~/.bashrc
 adk run greeting_agent
 ```
 
-## Setup for GitHub Codespaces
+## What the Agent Can Do
 
-### Quick Setup (Recommended)
-Run the setup script to install dependencies and configure the environment:
+- **Explore Data**: "What datasets are available?" or "What tables are in [dataset]?"
+- **Understand Schema**: "What columns are in [table_name]?"
+- **Run Analysis**: "Show me the first 10 rows of [table_name]" or "How many records are in [table_name]?"
+- **Generate Insights**: "What are the unique values in [column_name]?" or "Show me summary statistics"
 
-```bash
-chmod +x setup.sh
-./setup.sh
-source ~/.bashrc
-```
-
-The setup script will:
-- Install all Python dependencies
-- Create a custom `adk` wrapper command
-- Configure your PATH automatically
-
-### Manual Setup
-If you prefer to set up manually:
-
-```bash
-# Install dependencies (including the missing 'deprecated' module)
-pip install --user -r requirements.txt
-
-# Create adk wrapper script
-mkdir -p ~/.local/bin
-cat > ~/.local/bin/adk << 'EOF'
-#!/bin/bash
-python -m google.adk.cli "$@"
-EOF
-chmod +x ~/.local/bin/adk
-
-# Add local bin to PATH
-echo 'export PATH=$PATH:$HOME/.local/bin' >> ~/.bashrc
-source ~/.bashrc
-```
-
-## Running the Agent
-
-After setup, you can run the agent using:
-
-```bash
-adk run greeting_agent
-```
-
-If you encounter any issues, you can always run directly with:
-
-```bash
-python -m google.adk.cli run greeting_agent
-```
-
-## Usage
-
-Once the agent starts, you'll see a `user:` prompt. Type your messages and press Enter to interact with the agent. The agent will:
-
-1. Greet you
-2. Ask for your name
-3. Ask where you're from
-
-To exit the conversation, type `exit`.
-
-## Example Interaction
+## Example Usage
 
 ```
-user: Hello
-agent: Hi there! What's your name?
-user: My name is John
-agent: Nice to meet you, John! Where are you from?
-user: I'm from New York
-agent: That's great! It's wonderful to meet someone from New York!
-user: exit
+You: "What datasets are available?"
+Agent: I found several datasets in your project. Let me show you what's available...
+
+You: "What columns are in my_table?"
+Agent: Let me get the schema for your table...
+
+You: "Show me a sample of the data"
+Agent: I'll run a query to show you the first few rows...
 ```
 
-## Project Structure
+## Architecture
 
-- `greeting_agent/agent.py` - Main agent configuration
-- `requirements.txt` - Python dependencies
-- `setup.sh` - Automated setup script for Codespaces
-- `.gitignore` - Git ignore rules (excludes virtual environments)
+- **Agent Core**: `greeting_agent/agent.py` - Main agent configuration
+- **BigQuery Tools**: Automatic access to BigQuery datasets, tables, and query execution
+- **Authentication**: Uses BigQuery notebook's built-in authentication (no setup required)
 
-## Requirements
+## Dependencies
 
-- Python 3.8+
-- Google ADK package and dependencies (see requirements.txt)
+- Google ADK with BigQuery support
+- Google Cloud BigQuery libraries
+- Standard data analysis libraries (pandas, numpy, matplotlib)
+
+## Development
+
+The agent uses ADK's BigQuery toolset which includes:
+- `list_dataset_ids` - Discover available datasets
+- `get_dataset_info` - Get dataset metadata
+- `list_table_ids` - Find tables in datasets
+- `get_table_info` - Understand table schemas
+- `execute_sql` - Run SQL queries and return results
+
+## Troubleshooting
+
+If you encounter issues:
+1. Ensure you're running in a BigQuery notebook environment
+2. Check that BigQuery API is enabled in your project
+3. Verify the agent has access to your datasets
+
+## Next Steps
+
+Once running, try asking:
+- "What data do I have available?"
+- "Show me a sample from the [table_name] table"
+- "What are the most recent records in [table_name]?"
